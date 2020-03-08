@@ -1,0 +1,13 @@
+The egde between 2 and 1 with weight 2
+addEdge: 2 1 2
+The egde between 3 and 1 with weight 1
+addEdge: 3 1 1
+The egde between 2 and 3 with weight 1
+addEdge: 2 3 1
+The egde between 4 and 2 with weight 0
+addEdge: 4 2 0
+The egde between 4 and 3 with weight 2
+addEdge: 4 3 2
+The egde between 4 and 1 with weight 2
+addEdge: 4 1 2
+Print Graph
