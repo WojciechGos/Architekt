@@ -7,6 +7,14 @@ using namespace std;
 
 #define INF 1000000000;
 
+struct Edge{
+	int destinity, weight;
+	Edge(int dest, int w){
+		destinity = dest;
+		weight = w;
+	}
+};
+
 // ostream & operator << (ostream& os, vector<pair<int,int>> vpair){
 
 // 	for(auto it : vpair){
@@ -18,30 +26,27 @@ using namespace std;
 
 void findPath(vector<pair<int, int>> adjacentList[], int source, int destinity, int weight);
 
-void addEdgeDirectedWithWeight(map<int, vector<pair<int,int>>> adjacentList, int source, int destinity, int weight){
-	adjacentList[source].push_back(make_pair(destinity, weight));
+void addEdgeDirectedWithWeight(map<int, vector<Edge>> adjacentList, int source, int destinity, int weight){
+	adjacentList[source].push_back(Edge(destinity, weight));
 	cout << "addEdge: ";
 	
-	for(const auto& it: adjacentList[source]){
-		cout << source << " ";
-		cout << it.first << " " << it.second << endl;
-	}
+	// for(const auto& it: adjacentList[source]){
+	// 	cout << source << " ";
+	// 	cout << it.first << " " << it.second << endl;
+	// }
 	
 }
 
 
 
-void printGraph(map<int, vector<pair<int,int>>> adjacentyList, int Vertices){
+void printGraph(map<int, vector<Edge>> adjacentyList, int Vertices){
 	
 	cout << "Print Graph" << endl;
-	// for(int i=0; i<Vertices; i++){
-	// 	for(auto it = adjacentyList[i]; it != adjacentyList; it++){
-	// 		cout << "Node " << it->first << " has edge to " << it->second << endl;
-	// 	}
-	// }
-	// for(const auto & it : adjacentyList){
-	// 	cout << it.first << " " << it.second << endl;
-	// }
+	for(auto it : adjacentyList){
+		for(auto vec : it.second){
+			cout << "Edge from node " << it.first << " to node " << vec.destinity << " with weight " << vec.weight << endl;
+		}
+	}
 	
 }
 
@@ -52,7 +57,7 @@ int main(){
 	cin >> N >> Z;
 
     int firstBuild, secondBuild, high;
-	map<int, vector<pair<int,int>>> edges;
+	map<int, vector<Edge>> edges;
 
     for(int i=0; i < Z; i++){
 		cin >> firstBuild >> secondBuild >> high;
@@ -60,6 +65,7 @@ int main(){
 
 
 		addEdgeDirectedWithWeight(edges, firstBuild, secondBuild, high);
+		
 	
     }
 
