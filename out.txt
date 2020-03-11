@@ -1,7 +1,7 @@
-The egde between 2 and 1 with weight 2
-addEdge: The egde between 3 and 1 with weight 1
-addEdge: The egde between 2 and 3 with weight 1
-addEdge: The egde between 4 and 2 with weight 0
-addEdge: The egde between 4 and 3 with weight 2
-addEdge: The egde between 4 and 1 with weight 2
-addEdge: Print Graph
+Print Graph
+Edge from node 2 to node 1 with weight 2
+Edge from node 2 to node 3 with weight 1
+Edge from node 3 to node 1 with weight 1
+Edge from node 4 to node 2 with weight 0
+Edge from node 4 to node 3 with weight 2
+Edge from node 4 to node 1 with weight 2
