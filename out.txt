@@ -1,7 +1,15 @@
-Print Graph
 Edge from node 2 to node 1 with weight 2
 Edge from node 2 to node 3 with weight 1
 Edge from node 3 to node 1 with weight 1
 Edge from node 4 to node 2 with weight 0
 Edge from node 4 to node 3 with weight 2
 Edge from node 4 to node 1 with weight 2
+Find Path: start
+Edge{ 4 2} 0
+Edge{ 4 3} 2
+Edge{ 4 1} 2
+searchQueue.front() - 2
+searchQueue.front() - 3
+searchQueue.front() - 1
+road exist
+Yes

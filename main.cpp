@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <queue>
 
 
 using namespace std;
 
 #define INF 1000000000;
+
 
 struct Edge{
 	int destinity, weight;
@@ -14,6 +16,14 @@ struct Edge{
 		weight = w;
 	}
 };
+
+
+void printAcjacent(const vector<Edge>& adjacentList, int source){
+	for(auto it: adjacentList){
+		cout << "Edge{ " << source << " " << it.destinity << "} " << it.weight << endl;
+	}
+}
+
 
 
 void printGraph(map<int, vector<Edge>>& adjacentyList, int Vertices){
@@ -28,19 +38,25 @@ void printGraph(map<int, vector<Edge>>& adjacentyList, int Vertices){
 }
 
 bool findPath(map<int,vector<Edge>> & adjacentList, int source, int destinity, int weight){
+	cout << "Find Path: start" << endl;
 	auto searchQueue = adjacentList[source];
+
+
+	printAcjacent(adjacentList[source], source);
 	
 	while (!searchQueue.empty())
 	{
-		auto edge = searchQueue.back();
+		cout << "searchQueue.front() - " << searchQueue.front().destinity << endl;
+	
+		auto edge = searchQueue.front();
+		searchQueue.erase(searchQueue.begin());
 		if(edge.destinity == destinity){
 			cout << "road exist" << endl;
 			return true;
 		}
 		else{
-			searchQueue.pop_back();
-			searchQueue += adjacentList[edge];
-
+			
+			searchQueue.insert(searchQueue.end(), adjacentList[edge.destinity].begin(), adjacentList[edge.destinity].end());
 		}
 	}
 	return false;
@@ -72,6 +88,11 @@ int main(){
     }
 
 	printGraph(edges, N);
+	if(findPath(edges, 4, 1, 0)){
+		cout << "Yes" << endl;
+	}else{
+		cout << "No " << endl;
+	}
 
     return 0;
 }
