@@ -6,14 +6,19 @@
 
 using namespace std;
 
-#define INF 1000000000;
+#define INF 1000000000
 
 
 struct Edge{
-	int destinity, weight;
+	int value, destinity, weight;
 	Edge(int dest, int w){
 		destinity = dest;
 		weight = w;
+	}
+	Edge(int val, int dest, int w){
+		destinity = dest;
+		weight = w;
+		value = val;
 	}
 };
 
@@ -29,58 +34,65 @@ bool isNotIn(int destinationNode, const vector<int>& processed){
 
 	for(auto it : processed){
 		if(it == destinationNode){
-			return true;
+			return false;
 		}
 	}
 
-	return false;
+	return true;
 }
 
-void printGraph(const map<int, vector<Edge>>& adjacentyList){
-	
 
-	for(auto it : adjacentyList){
-		for(auto vec : it.second){
-			cout << "Edge from node " << it.first << " to node " << vec.destinity << " with weight " << vec.weight << endl;
-		}
-	}
-	
-}
+Edge findLowestCostNode(const vector<Edge>& edges){
+	int low = INF;
+	Edge node(INF, INF);
 
-int findLowestCostNode(const vector<Edge>& edges){
-	int low = 999999;
 	for(auto it: edges){
 		if(low > it.weight){
 			low = it.weight;
+			node = it;
 		}
 	}
-	return low;
+	return node;
 }
 
-bool findPath(map<int,vector<Edge>>& adjacentList, const int& source, const int& destinity, const int& weight, vector<Edge>& road){
+int findUnprocessedNode(){
+
+
+
+	return 0;
+}
+
+bool findPath(map<int,vector<Edge>>& adjacentList, const int& source, const int& destinity, const int& weight, int& cost){
+	// cost = 0;
 
 	auto searchQueue = adjacentList[source];
-	vector<int> processed;
-	
-
+	vector<int> processed; 
+	processed.push_back(source);
+	auto edge = searchQueue.front();
     // printAdjacent(adjacentList[source], source);
 	
 	while (!searchQueue.empty())
 	{
-		cout << "searchQueue.front() - " << searchQueue.front().destinity << " weight=" <<  searchQueue.front().weight << endl;
+		// cout << "searchQueue.front() - " << searchQueue.front().destinity << " weight=" <<  searchQueue.front().weight << endl;
 
-		road.push_back(searchQueue.front());
-
-		processed.push_back(searchQueue.front().destinity);
+		
 		auto edge = searchQueue.front();
+		cout << "here1" << endl;
+		cost += edge.weight;
+		cout << "Here2" << endl;
+		processed.push_back(searchQueue.front().destinity);
 		searchQueue.erase(searchQueue.begin());
-
-		if(edge.destinity == destinity && isNotIn(edge.destinity, processed) ){
+		cout << "if statement" << endl;
+		if(edge.destinity == destinity){
 			return true;
 		}
 		else{
-
-			searchQueue.insert(searchQueue.end(), adjacentList[edge.destinity].begin(), adjacentList[edge.destinity].end());
+			cout << "else statement" << endl;
+			for(auto it: adjacentList[edge.destinity]){
+				if(isNotIn(it.destinity, processed)){
+					searchQueue.push_back(it);
+				}
+			}
 		}
 	}
 	return false;
@@ -88,9 +100,9 @@ bool findPath(map<int,vector<Edge>>& adjacentList, const int& source, const int&
 
 
 void addEdgeDirectedWithWeight(map<int, vector<Edge>>& adjacentList, int source, int destinity, int weight){
-	adjacentList[source].push_back(Edge(destinity, weight));
+	adjacentList[source].push_back(Edge(source, destinity, weight));
 	weight = -1*weight;
-	adjacentList[destinity].push_back(Edge(source, weight));
+	adjacentList[destinity].push_back(Edge(destinity, source, weight));
 }
 
 
@@ -101,6 +113,7 @@ int main(){
 	cin >> N >> Z;
 
     int firstBuild, secondBuild, high;
+	vector<string> result;
 	map<int, vector<Edge>> edges;
 	vector<Edge> road;
 	int roadCost = 0;
@@ -110,23 +123,26 @@ int main(){
 		cout << endl;
 		cout << "FirstBuild=" << firstBuild << " SecondBuild=" << secondBuild << " Weight=" << high << endl;
 		cout << endl;
-		printGraph(edges);
+		
 
-		if(findPath(edges,firstBuild, secondBuild, high, road)){
-			for(auto it: road){
-				roadCost += it.weight;
-			}
+		if(findPath(edges,firstBuild, secondBuild, high, roadCost)){
 			if(roadCost == high){
 				addEdgeDirectedWithWeight(edges, firstBuild, secondBuild, high);
+				result.push_back("YES");
+			}else
+			{
+				result.push_back("NO");
 			}
+			
 		}else{
 			addEdgeDirectedWithWeight(edges, firstBuild, secondBuild, high);
+			result.push_back("YES");
 		}
-		
-		road.clear();
-		
 	
     }
+	for(auto it: result){
+		cout << it << endl;
+	}
 
 	
 	
